@@ -48,41 +48,40 @@ values = initvalues(run)
 
 values.printValues()
 
-archivo = open("../../output/globaldeprueba.txt", "r")
-# archivo = open("../../output/Globalwithoutduplicates.txt", "r")
+# archivo = open("../../output/globaldeprueba.txt", "r")
+archivo = open("../../output/Globalwithoutduplicates.txt", "r")
 
 sigmas = []
 
 number_of_iteration = 1
 
+weights = []
+
 for line in archivo:
-    print(f"Start: {number_of_iteration} ")
-    weights = line.split()
+    weight = line.split()
+    weights.append(weight)
+
+for x in range(len(weights)):
     sigma = []
-
-    archivo2 = open("../../output/globaldeprueba.txt", "r")
-    # archivo2 = open("../../output/Globalwithoutduplicates.txt", "r")
-
-    for line2 in archivo2:
-        weights2 = line2.split()
+    for y in range(len(weights)):
 
         concordanse = 0
 
-        for index in range(0,len(weights)):
+        for index in range(len(weights[x])):
 
-            xIky = abs(float(weights[index]) - float(weights2[index])) <= values.vectorU[index]
+            xIky = abs(float(weights[x][index]) - float(weights[y][index])) <= values.vectorU[index]
 
-            xPky = float(weights[index]) < float(weights2[index]) and not(xIky)
+            xPky = float(weights[x][index]) < float(weights[y][index]) and not(xIky)
 
             if xPky or xIky:
                 concordanse += values.vectorW[index]
 
         discordance_min_value = 1
 
-        for index in range(0,len(weights)):
+        for index in range(len(weights[x])):
             discordanse = 0
 
-            dis = float(weights[index]) - float(weights2[index])
+            dis = float(weights[x][index]) - float(weights[y][index])
 
             if dis < values.vectorS[index]:
                 discordanse = 0
